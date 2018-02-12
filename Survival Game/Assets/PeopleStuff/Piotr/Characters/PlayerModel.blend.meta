@@ -65,7 +65,22 @@ ModelImporter:
     7400006: Walk
     9500000: //RootNode
     13700000: Player
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Hair_001
+    second: {fileID: 2100000, guid: 3c7ba8471f309ad46899d0b63bb10c1d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Rose_001
+    second: {fileID: 2100000, guid: 145866f53a194684da00216938ec92ef, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Skin_001
+    second: {fileID: 2100000, guid: f8e90b1eda194e844a4abf9e09d954b6, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
