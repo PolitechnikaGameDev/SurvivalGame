@@ -60,7 +60,7 @@ public class CameraFollow : MonoBehaviour {
 
         //podazanie kamery za obiektem 
         float step = CameraMoveSpeed * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, target.position, step);
+        transform.position = Vector3.MoveTowards(transform.position, target.position, step); //podazaj za sledzonym obiektem
 
     }
 }
