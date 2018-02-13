@@ -14,6 +14,7 @@ public class CharacterAnimatorPT : MonoBehaviour {
 	
 	void Update ()
     {
+        //testowanko
         float LocomotionBlend = 0.5f;
 
         var x = Input.GetAxis("Horizontal") * Time.deltaTime * 150.0f;
