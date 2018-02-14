@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class PlayerMotor : MonoBehaviour {
     public float currMaxSpeed;          //obecna predkosc maksymalna
     [SerializeField]
-    private float maxSpeedSprint;        //predkosc maksymalna przy sprincie
+    public float maxSpeedSprint;        //predkosc maksymalna przy sprincie // PT ZMIANA NA PUBLIC
     [SerializeField]
     private float maxSpeedWalk;         //predkosc maksymalna przy chodzeniu
     [SerializeField]
