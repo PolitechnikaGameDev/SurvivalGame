@@ -12,6 +12,7 @@ public class CameraCollision : MonoBehaviour {
     Vector3 CameraPos; // lokalizacja kamery
     float distance; //dystans kamery od postaci
     float userDistance; //dystans ustawiony przez uzytkownika
+    public LayerMask layer;
 
 
 	void Awake ()
@@ -40,7 +41,7 @@ public class CameraCollision : MonoBehaviour {
         // jezeli na drodze pomiedzy postacia a kamera nastapi kolizja to zblizy kamere
         Vector3 desiredCameraPos = transform.parent.TransformPoint(CameraPos * userDistance); //odleglosc kamery od postaci
         RaycastHit hit;
-        if (Physics.Linecast(transform.parent.position, desiredCameraPos, out hit))
+        if (Physics.Linecast(transform.parent.position, desiredCameraPos, out hit,layer))
         {
             distance = Mathf.Clamp((hit.distance * 0.8f), minDistance, maxDistance);
             transform.localPosition = Vector3.Lerp(transform.localPosition, CameraPos * distance, Time.deltaTime * cameraCollisionCorrectionSmooth); //ustaw kamere do poprawnej pozycji
