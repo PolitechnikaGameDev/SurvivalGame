@@ -84,7 +84,6 @@ public class PlayerMotor : MonoBehaviour {
 
 
         velocity = dst.magnitude;
-
         velocity -= (playerCollision.upToGroundAngle/100)*currMaxSpeed;
 
 
