@@ -85,7 +85,7 @@ public class PlayerMotor : MonoBehaviour {
 
         if (velocity < 0.0001f)
             dst = Vector3.zero;
-        Debug.Log(velocity);
+        //Debug.Log(velocity);
 
         return dst;
     }
