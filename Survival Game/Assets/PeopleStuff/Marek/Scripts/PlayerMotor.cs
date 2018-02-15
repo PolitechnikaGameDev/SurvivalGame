@@ -14,24 +14,26 @@ public class PlayerMotor : MonoBehaviour {
     [SerializeField]
     private float rotSpeed = .1f;        //predkosc obracania
 
-    private bool isSprinting = false;
-
-    public Vector3 previousDst;
+    private Vector3 previousDst;
+    public Vector3 destination;
     public float velocity;
 
+    private PlayerCollision playerCollision;
     private void Start()
     {
         currMaxSpeed = maxSpeedWalk;
+        playerCollision = GetComponent<PlayerCollision>();
     }
+
     void Update () {
 
 
 
         Vector3 input = HandleInput();
-        Vector3 dst = input * currMaxSpeed;
-        dst = GetCurrSpeed(dst);
-        previousDst = dst;
-        transform.Translate(dst * Time.deltaTime);// ruch
+        destination = input * currMaxSpeed;
+        destination = GetCurrSpeed(destination);
+        previousDst = destination;
+        transform.Translate(destination * Time.deltaTime);// ruch
         if (input.magnitude != 0)
         {
             Quaternion rotation = Quaternion.LookRotation(input);
@@ -83,9 +85,8 @@ public class PlayerMotor : MonoBehaviour {
 
         velocity = dst.magnitude;
 
-        if (velocity < 0.0001f)
-            dst = Vector3.zero;
-        Debug.Log(velocity);
+        velocity -= (playerCollision.upToGroundAngle/100)*currMaxSpeed;
+
 
         return dst;
     }
