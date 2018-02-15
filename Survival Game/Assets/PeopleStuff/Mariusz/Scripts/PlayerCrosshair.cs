@@ -6,9 +6,6 @@ public class PlayerCrosshair : MonoBehaviour {
 
 	public Camera cam;
 
-
-	
-
 	void Update () 
 	{
 		if (Input.GetButtonDown ("Interact")) 
@@ -20,7 +17,7 @@ public class PlayerCrosshair : MonoBehaviour {
 	void Interaction ()
 	{
 		RaycastHit hit;
-		if (Physics.Raycast (this.transform.position, cam.transform.forward, out hit)) 
+		if (Physics.Raycast (cam.transform.position, cam.transform.forward, out hit)) 
 		{
 			Debug.Log ("Hit" + hit.transform.name);
 		}
