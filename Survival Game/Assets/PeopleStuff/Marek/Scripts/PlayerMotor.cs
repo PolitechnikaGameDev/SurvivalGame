@@ -23,6 +23,8 @@ public class PlayerMotor : MonoBehaviour {
     {
         currMaxSpeed = maxSpeedWalk;
         playerCollision = GetComponent<PlayerCollision>();
+        if (playerCollision == null)
+            playerCollision = gameObject.AddComponent<PlayerCollision>();
     }
 
     void Update () {
