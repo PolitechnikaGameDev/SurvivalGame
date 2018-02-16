@@ -10,16 +10,18 @@ public class PlayerCrosshair : MonoBehaviour {
 	{
 		if (Input.GetButtonDown ("Interact")) 
 		{
-			Interaction ();
+			RaycastHit hit;
+			if (Physics.Raycast (cam.transform.position, cam.transform.forward, out hit)) 
+			{
+				Debug.Log ("Hit" + hit.transform.name);
+				Interactable interactable = hit.collider.GetComponent<Interactable> ();
+				if (interactable != null) 
+				{
+					
+				}
+			}
 		}
 	}
 
-	void Interaction ()
-	{
-		RaycastHit hit;
-		if (Physics.Raycast (cam.transform.position, cam.transform.forward, out hit)) 
-		{
-			Debug.Log ("Hit" + hit.transform.name);
-		}
-	}
+
 }
