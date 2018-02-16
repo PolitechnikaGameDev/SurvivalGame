@@ -17,7 +17,7 @@ public class PlayerCrosshair : MonoBehaviour {
 				Interactable interactable = hit.collider.GetComponent<Interactable> ();
 				if (interactable != null) 
 				{
-					
+					interactable.clicked = true;
 				}
 			}
 		}

@@ -6,6 +6,7 @@ public class Interactable : MonoBehaviour
 {
 
 	public float radius = 2f;
+	public bool clicked = false;
 	public Transform player;
 
 	public virtual void Interact ()
@@ -17,10 +18,11 @@ public class Interactable : MonoBehaviour
 	void Update ()
 	{
 		float distance = Vector3.Distance (player.position, transform.position);
-		if (distance <= radius)
+		if (distance <= radius && clicked) 
 		{
 			Interact ();
 		}
+		clicked = false;
 	}
 		
 	void OnDrawGizmosSelected ()
