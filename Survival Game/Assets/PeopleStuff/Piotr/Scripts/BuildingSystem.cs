@@ -11,6 +11,7 @@ public class BuildingSystem : MonoBehaviour {
     Vector3 buildingPosition;
     float distance=5f;
     bool enableInstantiate;
+    bool buildingOn;
     Transform activeBuidlingPart;
 
 
@@ -19,6 +20,7 @@ public class BuildingSystem : MonoBehaviour {
     {
         direction = origin.transform.position - Camera.main.transform.position;
         enableInstantiate = true;
+        buildingOn = true;
 	}
 	
 	void Update ()
@@ -32,7 +34,6 @@ public class BuildingSystem : MonoBehaviour {
         {
             if (hit.transform != this.transform)
             {
-            Debug.Log(hit.transform.name);
                 if (enableInstantiate)
                 {
                     buildingPosition = hit.point;
@@ -44,6 +45,34 @@ public class BuildingSystem : MonoBehaviour {
         }
 
 
-        Debug.DrawRay(origin.transform.position, direction, Color.red, Time.deltaTime*2f);
+        //Debug.DrawRay(origin.transform.position, direction, Color.red, Time.deltaTime*2f);
+
+        /*if (buildingOn)
+        {
+            buildingPosition = setPosition();
+            if (enableInstantiate)
+            {
+                activeBuidlingPart = Instantiate(buildingBlock, buildingPosition, Quaternion.identity);
+                enableInstantiate = false;
+            }
+            activeBuidlingPart.position =buildingPosition;
+        }*/
+    }
+
+    Vector3 setPosition()
+    {
+        direction = origin.transform.position - Camera.main.transform.position;
+        direction.Normalize();
+        direction *= distance;
+        Vector3 position;
+
+        RaycastHit hit;
+        Physics.Raycast(origin.transform.position, direction, out hit, distance, layer);
+        if (hit.transform != this.transform)
+            position = hit.point;
+        else
+            position = origin.transform.position + direction;
+
+        return position;
     }
 }

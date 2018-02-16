@@ -639,7 +639,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 869266253}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9dfa120d01468d6418d88330f463d70a, type: 3}
   m_Name: 
@@ -647,7 +647,7 @@ MonoBehaviour:
   layer:
     serializedVersion: 2
     m_Bits: 4294966783
-  buildingBlock: {fileID: 4604613782829146, guid: 9fd6060161828b243b82fbed3975565f,
+  buildingBlock: {fileID: 4972173175204912, guid: 9fd6060161828b243b82fbed3975565f,
     type: 2}
   origin: {fileID: 1671527734}
 --- !u!4 &869266261
@@ -1097,7 +1097,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1245469547}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.2, y: 0.2, z: -1.5}
+  m_LocalPosition: {x: 0, y: 0.2, z: -1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1911221236}
