@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -582,7 +582,11 @@ MonoBehaviour:
   maxSpeedSprint: 6
   maxSpeedWalk: 3
   acceleration: 20
+  maxSlope: 60
+  slopeAffector: 0.003
   rotSpeed: 0.1
+  KURWA: {x: 0, y: 0, z: 0}
+  rawInput: {x: 0, y: 0, z: 0}
   destination: {x: 0, y: 0, z: 0}
   velocity: 0
 --- !u!136 &869266257
@@ -677,9 +681,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSize: 1
-  upToGroundAngle: 0
-  dstToGroundAngle: 0
-  dst: {x: 0, y: 0, z: 0}
+  upToNormalAngle: 0
+  dstToNormalAngle: 0
 --- !u!1 &898695121
 GameObject:
   m_ObjectHideFlags: 0

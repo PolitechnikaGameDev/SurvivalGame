@@ -542,6 +542,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a3363085308641468d1acf46c4750df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1001 &1608553623
 Prefab:
   m_ObjectHideFlags: 0
@@ -924,6 +927,21 @@ Prefab:
     - target: {fileID: 1405384638957588, guid: 60a8ec5fe771eb8479668d87ece75ab7, type: 2}
       propertyPath: m_Layer
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114082903593280806, guid: 60a8ec5fe771eb8479668d87ece75ab7,
+        type: 2}
+      propertyPath: acceleration
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114082903593280806, guid: 60a8ec5fe771eb8479668d87ece75ab7,
+        type: 2}
+      propertyPath: maxSlope
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 114082903593280806, guid: 60a8ec5fe771eb8479668d87ece75ab7,
+        type: 2}
+      propertyPath: slopeAffector
+      value: 0.003
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 60a8ec5fe771eb8479668d87ece75ab7, type: 2}
