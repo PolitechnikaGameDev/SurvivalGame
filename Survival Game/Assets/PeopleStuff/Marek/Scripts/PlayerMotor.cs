@@ -8,23 +8,23 @@ public class PlayerMotor : MonoBehaviour {
     public float currMaxSpeed;          //obecna predkosc maksymalna
 
     [SerializeField]
-    public float maxSpeedSprint;        //predkosc maksymalna przy sprincie 
+    public float maxSpeedSprint = 6;        //predkosc maksymalna przy sprincie 
     [SerializeField]
-    private float maxSpeedWalk;         //predkosc maksymalna przy chodzeniu
+    private float maxSpeedWalk = 3;         //predkosc maksymalna przy chodzeniu
     [SerializeField]
-    private float acceleration = 0;      //przyspieszenie
+    private float acceleration = 20;      //przyspieszenie
     [SerializeField]
-    private float maxSlope = 1;        //maksymalne nachylenie 
+    private float maxSlope = 60;        //maksymalne nachylenie 
     [SerializeField]
     [Range(0.001f, 0.1f)]
-    private float slopeAffector;
+    private float slopeAffector =  0.004f;
     [SerializeField]
     private float rotSpeed = .1f;        //predkosc obracania
 
-    [ShowOnly]
-    public Vector3 KURWA;
+    private Vector3 slopeVector;
 
     private Vector3 previousDst;
+    [HideInInspector]
     public Vector3 rawInput;
     [ShowOnly]
     public Vector3 destination;
@@ -77,8 +77,8 @@ public class PlayerMotor : MonoBehaviour {
 
         dst = Vector3.SmoothDamp(previousDst, dst, ref velocityVector, 1 / acceleration);      //plynne przyspieszanie/zwalnianie
 
-        KURWA = AddSlopesAffection(dst,slopeAngle);
-        dst += KURWA;
+        slopeVector = AddSlopesAffection(dst,slopeAngle);
+        dst += slopeVector;
 
         Debug.DrawRay(transform.position, dst, Color.red);
         velocity = dst.magnitude;

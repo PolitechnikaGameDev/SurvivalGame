@@ -497,9 +497,8 @@ MonoBehaviour:
   maxSpeedWalk: 3
   acceleration: 20
   maxSlope: 60
-  slopeAffector: 0.003
+  slopeAffector: 0.004
   rotSpeed: 0.1
-  KURWA: {x: 0, y: 0, z: 0}
   rawInput: {x: 0, y: 0, z: 0}
   destination: {x: 0, y: 0, z: 0}
   velocity: 0
