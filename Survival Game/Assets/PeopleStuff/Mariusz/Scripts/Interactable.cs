@@ -18,6 +18,7 @@ public class Interactable : MonoBehaviour
 	void Update ()
 	{
 		float distance = Vector3.Distance (player.position, transform.position);
+	
 		if (distance <= radius && clicked) 
 		{
 			Interact ();
