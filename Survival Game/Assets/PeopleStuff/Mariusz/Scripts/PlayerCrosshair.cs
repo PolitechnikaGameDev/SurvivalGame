@@ -5,13 +5,15 @@ using UnityEngine;
 public class PlayerCrosshair : MonoBehaviour {
 
 	public Camera cam;
-
+	public LayerMask mask;
 	void Update () 
 	{
-		if (Input.GetButtonDown ("Interact")) 
+		
+		RaycastHit hit;
+		if (Physics.Raycast (cam.transform.position, cam.transform.forward, out hit, 100, mask.value))
 		{
-			RaycastHit hit;
-			if (Physics.Raycast (cam.transform.position, cam.transform.forward, out hit)) 
+			
+			if (Input.GetButtonDown ("Interact")) 
 			{
 				Debug.Log ("Hit" + hit.transform.name);
 				Interactable interactable = hit.collider.GetComponent<Interactable> ();

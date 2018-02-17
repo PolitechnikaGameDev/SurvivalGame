@@ -5,7 +5,7 @@ using UnityEngine;
 public class Interactable : MonoBehaviour 
 {
 
-	public float radius = 2f;
+	public float radius = 3f;
 	public bool clicked = false;
 	public Transform player;
 
