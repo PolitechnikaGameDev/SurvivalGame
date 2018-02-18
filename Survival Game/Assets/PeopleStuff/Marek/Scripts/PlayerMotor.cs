@@ -3,7 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+
+
+
 public class PlayerMotor : MonoBehaviour {
+    private class CollisionData
+    {
+       
+        public float upToNormalAngle;
+        public float dstToNormalAngle;
+        public Vector3 rotateAxis;
+        public PlayerCollision pc;
+        public float slopeAngle;
+
+        public CollisionData(PlayerCollision _pc)
+        {
+            pc = _pc;
+            Update();
+        }
+        public void Update()
+        {
+            upToNormalAngle = pc.upToNormalAngle;
+            dstToNormalAngle = pc.dstToNormalAngle;
+            rotateAxis = pc.rotateAxis;
+            slopeAngle = 90 - pc.dstToNormalAngle;
+        }
+
+    };
+
     [ShowOnly]
     public float currMaxSpeed;          //obecna predkosc maksymalna
 
@@ -21,37 +48,37 @@ public class PlayerMotor : MonoBehaviour {
     [SerializeField]
     private float rotSpeed = .1f;        //predkosc obracania
 
-    private Vector3 slopeVector;
-
-    private Vector3 previousDst;
-    [HideInInspector]
-    public Vector3 rawInput;
     [ShowOnly]
     public Vector3 destination;
     [ShowOnly]
     public float velocity;
 
-    private PlayerCollision playerCollision;
-    private Transform playerGraphic;
 
+
+
+    [HideInInspector]
+    public Vector3 rawInput;
+    private Transform playerGraphic;
+    private CollisionData collisionData;
+    private Vector3 previousDst;
     private void Start()
     {
-        playerCollision = GetComponent<PlayerCollision>();
+        if (GetComponent<PlayerCollision>() == null)
+            gameObject.AddComponent<PlayerCollision>();
+
+        collisionData = new CollisionData(GetComponent<PlayerCollision>());
+
         playerGraphic = transform.GetChild(0);
 
         currMaxSpeed = maxSpeedWalk;
-        if (playerCollision == null)
-            playerCollision = gameObject.AddComponent<PlayerCollision>();
     }
-
     void Update () {
 
-
-
         Vector3 input = HandleInput();
-        destination = input * currMaxSpeed;
-        destination = GetCurrSpeed(destination);
-        previousDst = destination;
+        collisionData.Update();
+        destination = GetCurrSpeed(input);
+
+
         transform.Translate(destination * Time.deltaTime);// ruch
         if (input.magnitude != 0)
         {
@@ -63,39 +90,54 @@ public class PlayerMotor : MonoBehaviour {
 
     }
 
-    private Vector3 GetCurrSpeed(Vector3 dst)
+
+    private Vector3 GetCurrSpeed(Vector3 input)
     {
-        Vector3 velocityVector = Vector3.zero;
-  
 
 
+        Vector3 dst = input * currMaxSpeed;
 
-        float slopeAngle = 90 - playerCollision.dstToNormalAngle;
- 
+        dst = RotateDestination(dst);
 
-        dst = Quaternion.AngleAxis(slopeAngle, playerGraphic.right) * dst;
+        dst += AddSlopesAffection(dst,collisionData.slopeAngle);
 
-        dst = Vector3.SmoothDamp(previousDst, dst, ref velocityVector, 1 / acceleration);      //plynne przyspieszanie/zwalnianie
+        dst = SmoothDestination(dst);
 
-        slopeVector = AddSlopesAffection(dst,slopeAngle);
-        dst += slopeVector;
+        velocity = destination.magnitude;
+
+        previousDst = destination;
 
         Debug.DrawRay(transform.position, dst, Color.red);
-        velocity = dst.magnitude;
+        return dst;
+    }
+
+    private Vector3 RotateDestination(Vector3 dst)
+    {
+        dst = Quaternion.AngleAxis(collisionData.slopeAngle, collisionData.rotateAxis) * dst;
+        Debug.DrawRay(playerGraphic.position, collisionData.rotateAxis);
+        return dst;
+    }
+
+    private Vector3 SmoothDestination(Vector3 dst)
+    {
+
+        Vector3 velocityVector = Vector3.zero;
+        dst = Vector3.SmoothDamp(previousDst, dst, ref velocityVector, 1 / acceleration);      //plynne przyspieszanie/zwalnianie
         return dst;
     }
 
     private Vector3 AddSlopesAffection(Vector3 dst, float slopeAngle)
     {
         if (slopeAngle<0)
-            if (Mathf.Abs(slopeAngle) >= maxSlope)
+            if (collisionData.upToNormalAngle >= maxSlope)
                 return -dst;
 
-        slopeAngle = slopeAngle * slopeAffector;
+        slopeAngle *= slopeAffector;
 
 
-        return dst * slopeAngle;
+        return dst * slopeAngle *slopeAffector;
     }
+
 
 
 
