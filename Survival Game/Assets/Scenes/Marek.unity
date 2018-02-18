@@ -499,9 +499,9 @@ MonoBehaviour:
   maxSlope: 60
   slopeAffector: 0.004
   rotSpeed: 0.1
-  rawInput: {x: 0, y: 0, z: 0}
   destination: {x: 0, y: 0, z: 0}
   velocity: 0
+  rawInput: {x: 0, y: 0, z: 0}
 --- !u!136 &524112143
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -579,6 +579,7 @@ MonoBehaviour:
   playerSize: 0.2
   upToNormalAngle: 0
   dstToNormalAngle: 0
+  rotateAxis: {x: 0, y: 0, z: 0}
 --- !u!1 &575130883
 GameObject:
   m_ObjectHideFlags: 0
@@ -635,7 +636,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 594365331}
   m_LocalRotation: {x: 0.19779982, y: -0, z: -0, w: 0.9802425}
-  m_LocalPosition: {x: 51.2, y: 23.682251, z: -40.253277}
+  m_LocalPosition: {x: 51.2, y: 23.63, z: -40.28}
   m_LocalScale: {x: 2.8125, y: 1, z: 3.9030802}
   m_Children: []
   m_Father: {fileID: 1478123179}
@@ -1427,7 +1428,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1671527734}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.25, z: 0}
+  m_LocalPosition: {x: 0, y: 1.702, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2043960268}
@@ -1796,7 +1797,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2074703876}
   m_LocalRotation: {x: 0.5519439, y: -0, z: -0, w: 0.83388126}
-  m_LocalPosition: {x: 51.2, y: 28.16, z: -45.45}
+  m_LocalPosition: {x: 51.2, y: 28.24, z: -45.264}
   m_LocalScale: {x: 2.8125, y: 1, z: 4.02132}
   m_Children: []
   m_Father: {fileID: 1478123179}

@@ -43,8 +43,8 @@ public class PlayerMotor : MonoBehaviour {
     [SerializeField]
     private float maxSlope = 60;        //maksymalne nachylenie 
     [SerializeField]
-    [Range(0.001f, 0.1f)]
-    private float slopeAffector =  0.004f;
+    [Range(0.001f, 0.2f)]
+    private float slopeAffector =  0.01f;
     [SerializeField]
     private float rotSpeed = .1f;        //predkosc obracania
 
