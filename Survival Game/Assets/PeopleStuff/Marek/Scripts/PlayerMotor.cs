@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 
 
 
@@ -73,6 +74,9 @@ public class PlayerMotor : MonoBehaviour {
         currMaxSpeed = maxSpeedWalk;
     }
     void Update () {
+
+		if (EventSystem.current.IsPointerOverGameObject ())
+			return;
 
         Vector3 input = HandleInput();
         collisionData.Update();
