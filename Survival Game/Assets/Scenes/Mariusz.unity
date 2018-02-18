@@ -134,10 +134,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c08d3960a7c60c4eb5f2a81af194680, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactionDist: 2.5
   cam: {fileID: 1245469550}
   mask:
     serializedVersion: 2
     m_Bits: 1024
+  interactionPoint: {fileID: 1136023569}
 --- !u!1 &254322363
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,9 +329,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 440c8e6f3e28dde4b9ba757cdca688b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 2
-  clicked: 0
-  player: {fileID: 177455429}
   item: {fileID: 11400000, guid: 49e2caf8b7319d84abcfc0daab22be46, type: 2}
 --- !u!23 &930387321
 MeshRenderer:
@@ -427,9 +426,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 440c8e6f3e28dde4b9ba757cdca688b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 2
-  clicked: 0
-  player: {fileID: 177455429}
   item: {fileID: 11400000, guid: 49e2caf8b7319d84abcfc0daab22be46, type: 2}
 --- !u!23 &999786629
 MeshRenderer:
@@ -558,6 +554,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1136023568
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1136023569}
+  m_Layer: 8
+  m_Name: InteractionPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1136023569
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1136023568}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 177455429}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1245469547
 GameObject:

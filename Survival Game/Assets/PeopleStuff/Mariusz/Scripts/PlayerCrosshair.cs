@@ -7,6 +7,8 @@ public class PlayerCrosshair : MonoBehaviour {
 	public float interactionDist = 2.5f;
 	public Camera cam;
 	public LayerMask mask;
+	public Transform interactionPoint;
+	float distance;
 	void Update () 
 	{
 		
@@ -15,7 +17,7 @@ public class PlayerCrosshair : MonoBehaviour {
 		{
 			Debug.Log ("Hit" + hit.transform.name);
 			Interactable interactable = hit.collider.GetComponent<Interactable> ();
-			float distance = Vector3.Distance (interactable.transform.position, transform.position);
+			distance = Vector3.Distance (interactable.transform.position, interactionPoint.transform.position);
 			if (Input.GetButtonDown ("Interact") && distance <= interactionDist) 
 			{
 				if (interactable != null) 
@@ -26,5 +28,10 @@ public class PlayerCrosshair : MonoBehaviour {
 		}
 	}
 
+	void OnDrawGizmosSelected()
+	{
+		Gizmos.color = Color.yellow;
+		Gizmos.DrawWireSphere (interactionPoint.transform.position, interactionDist);
+	}
 
 }

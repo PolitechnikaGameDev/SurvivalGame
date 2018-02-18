@@ -6,22 +6,22 @@ public class Inventory : MonoBehaviour {
 
 	#region Singleton
 
-	public delegate void OnItemChanged();
-	public OnItemChanged onItemChangedCallback;
-
 	public static Inventory instance;
 
 	void Awake()
 	{
 		if (instance != null) 
 		{
-			Debug.LogWarning ("More than one instance of inventory");
+			Debug.LogWarning ("More than one instance of inventory found");
 			return;
 		}
 		instance = this;
 	}
 
 	#endregion
+
+	public delegate void OnItemChanged();
+	public OnItemChanged onItemChangedCallback;
 
 	public int space = 20;
 	public List<Item> items = new List<Item>();
