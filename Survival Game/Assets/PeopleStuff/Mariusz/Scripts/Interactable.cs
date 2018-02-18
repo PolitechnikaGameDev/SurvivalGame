@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour 
 {
-
-	public float radius = 3f;
-	public bool clicked = false;
-	public Transform player;
-
 	public virtual void Interact ()
 	{
 		//TODO
@@ -17,18 +12,8 @@ public class Interactable : MonoBehaviour
 
 	void Update ()
 	{
-		float distance = Vector3.Distance (player.position, transform.position);
-	
-		if (distance <= radius && clicked) 
-		{
-			Interact ();
-		}
-		clicked = false;
+		
 	}
 		
-	void OnDrawGizmosSelected ()
-	{
-		Gizmos.color = Color.yellow;
-		Gizmos.DrawWireSphere (transform.position, radius);
-	}
+
 }
