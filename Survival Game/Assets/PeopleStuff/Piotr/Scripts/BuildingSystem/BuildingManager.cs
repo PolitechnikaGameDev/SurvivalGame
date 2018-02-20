@@ -9,9 +9,11 @@ public class BuildingManager : MonoBehaviour {
     public bool buildingON;
     public static bool isBuilding;
     public float spawnOffset = 10f;
+    GameObject instantiatedObject;
 
 
-	void Start ()
+
+    void Start ()
     {
         currentBuildingPart = buildingParts[0];
 	}
@@ -24,20 +26,21 @@ public class BuildingManager : MonoBehaviour {
             if (!isBuilding)
             {
                 isBuilding = true;
-                Instantiate(chooseBuildingPart(), setSpawnPosition(), Quaternion.identity);
+                instantiatedObject = Instantiate(chooseBuildingPart(), setSpawnPosition(), Quaternion.identity);
             }
-        }
-	}
-
-    bool isBuildingON()
-    {
-        if (Input.GetMouseButtonDown(1))
-        {
-            buildingON = true;
         }
         else
         {
-            buildingON = false;
+            Destroy(instantiatedObject);
+            isBuilding = false;
+        }
+    }
+
+    bool isBuildingON()
+    {
+        if (Input.GetKeyDown("0"))
+        {
+            buildingON = !buildingON;
         }
         return buildingON;
     }

@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Origin
+  - Ground
+  - isPlacingEnabled
   layers:
   - Default
   - TransparentFX

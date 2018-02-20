@@ -1587,7 +1587,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: fccb8f4416d53804d85f0e765f995637, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: fccb8f4416d53804d85f0e765f995637, type: 3}
       propertyPath: m_Name
@@ -1596,6 +1596,10 @@ Prefab:
     - target: {fileID: 100000, guid: fccb8f4416d53804d85f0e765f995637, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: fccb8f4416d53804d85f0e765f995637, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fccb8f4416d53804d85f0e765f995637, type: 3}
@@ -3493,7 +3497,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4419665172334800, guid: 60a8ec5fe771eb8479668d87ece75ab7, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 136012870634625568, guid: 60a8ec5fe771eb8479668d87ece75ab7,
         type: 2}
@@ -3708,7 +3712,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingParts:
-  - {fileID: 1142176473006910, guid: e1d981d8d23d9f343a753061694e6f32, type: 2}
+  - {fileID: 1008723438960608, guid: 3151de279c3fed549afac073067800bf, type: 2}
   currentBuildingPart: {fileID: 0}
   buildingON: 0
   spawnOffset: 10
@@ -4405,7 +4409,7 @@ Transform:
   m_Children:
   - {fileID: 48372780}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2054131019
 MonoBehaviour:
