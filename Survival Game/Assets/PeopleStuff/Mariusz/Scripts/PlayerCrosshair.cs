@@ -13,7 +13,7 @@ public class PlayerCrosshair : MonoBehaviour {
 	{
 		
 		RaycastHit hit;
-		if (Physics.Raycast (cam.transform.position, cam.transform.forward, out hit, 50f, mask.value))
+		if (Physics.Raycast (cam.transform.position, cam.transform.forward, out hit, 50f, mask))
 		{
 			Debug.Log ("Hit" + hit.transform.name);
 			Interactable interactable = hit.collider.GetComponent<Interactable> ();
