@@ -7,6 +7,7 @@ TagManager:
   - Origin
   - Ground
   - isPlacingEnabled
+  - Foundation
   layers:
   - Default
   - TransparentFX
