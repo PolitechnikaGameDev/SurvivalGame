@@ -6,7 +6,6 @@ TagManager:
   tags:
   - Origin
   - Ground
-  - isPlacingEnabled
   - Foundation
   layers:
   - Default

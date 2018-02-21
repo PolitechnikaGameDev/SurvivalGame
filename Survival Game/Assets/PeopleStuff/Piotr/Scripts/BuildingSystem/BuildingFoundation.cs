@@ -17,7 +17,7 @@ public class BuildingFoundation : MonoBehaviour {
     public Material [] currentMaterials;
     //collider stuff
     Collider meshCollider;
-    public static bool placingEnabled;
+    public bool placingEnabled;
 
     void Start ()
     {
@@ -37,7 +37,7 @@ public class BuildingFoundation : MonoBehaviour {
             setPosition();
             placeIt();
             changeMaterial();
-            //setCollider();
+            setCollider();
         }
 
 	}
@@ -62,10 +62,13 @@ public class BuildingFoundation : MonoBehaviour {
 
     void placeIt()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (placingEnabled)
         {
-            isPlaced = true;
-            BuildingManager.isBuilding = false;
+            if (Input.GetMouseButtonDown(0))
+            {
+                isPlaced = true;
+                BuildingManager.isBuilding = false;
+            }
         }
     }
 

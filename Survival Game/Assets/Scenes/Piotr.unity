@@ -3720,7 +3720,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingParts:
-  - {fileID: 1820021591839710, guid: 3151de279c3fed549afac073067800bf, type: 2}
+  - {fileID: 1331581464407046, guid: 3151de279c3fed549afac073067800bf, type: 2}
   currentBuildingPart: {fileID: 0}
   buildingON: 0
   spawnOffset: 10
