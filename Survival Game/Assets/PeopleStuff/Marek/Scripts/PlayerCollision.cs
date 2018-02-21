@@ -9,9 +9,12 @@ public class PlayerCollision : MonoBehaviour {
     public float upToNormalAngle;
     [ShowOnly]
     public float dstToNormalAngle;
-
+    [ShowOnly]
+    public bool inAir;
     [HideInInspector]
     public Vector3 rotateAxis;
+
+    public float rayOriginOffsetY = 0.4f;
 
 
 
@@ -30,7 +33,7 @@ public class PlayerCollision : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         dst = playerMotor.rawInput;
-        Vector3 origin = new Vector3(transform.position.x, transform.position.y+.4f, transform.position.z);
+        Vector3 origin = new Vector3(transform.position.x, transform.position.y+ rayOriginOffsetY, transform.position.z);
         origin = origin + dst*0.3f;
         Debug.DrawRay(origin, -Vector3.up, Color.blue);
 
@@ -45,8 +48,12 @@ public class PlayerCollision : MonoBehaviour {
             rotateAxis = Vector3.Cross(hit.normal, -Vector3.up);
             else
                 rotateAxis = Vector3.Cross(hit.normal, Vector3.up);
+            
 
-
+            if (transform.position.y - hit.point.y >.1f)
+                inAir = true;
+            else
+                inAir = false;
         }
 
     }

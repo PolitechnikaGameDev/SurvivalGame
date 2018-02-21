@@ -16,7 +16,8 @@ public class PlayerMotor : MonoBehaviour {
         public Vector3 rotateAxis;
         public PlayerCollision pc;
         public float slopeAngle;
-        public bool movementBlocked;
+        public bool inAir;
+
 
         public CollisionData(PlayerCollision _pc)
         {
@@ -29,6 +30,8 @@ public class PlayerMotor : MonoBehaviour {
             dstToNormalAngle = pc.dstToNormalAngle;
             rotateAxis = pc.rotateAxis;
             slopeAngle = 90 - pc.dstToNormalAngle;
+            inAir = pc.inAir;
+
         }
 
     };
@@ -42,6 +45,8 @@ public class PlayerMotor : MonoBehaviour {
     private float maxSpeedWalk = 3;         //predkosc maksymalna przy chodzeniu
     [SerializeField]
     private float acceleration = 20;      //przyspieszenie
+    [SerializeField]
+    private float jumpForce = 300;      //sila skoku
     [SerializeField]
     private float maxSlope = 60;        //maksymalne nachylenie 
     [SerializeField]
@@ -153,14 +158,6 @@ public class PlayerMotor : MonoBehaviour {
 
 
 
-
-
-
-
-
-
-
-
     private Vector3 GetInput()// pobieranie inputu
     {
         float horizontal = Input.GetAxis("Horizontal");
@@ -173,7 +170,20 @@ public class PlayerMotor : MonoBehaviour {
             currMaxSpeed = maxSpeedSprint;
         else
             currMaxSpeed = maxSpeedWalk;
-        return input;
+
+        if (Input.GetKeyDown(KeyCode.Space) && !collisionData.inAir)
+        {
+            rigidBody.AddForce(Vector3.up * jumpForce);
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 0.5f, transform.localScale.z);
+        }
+        else if (Input.GetKeyUp(KeyCode.C))
+        {
+            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 2f, transform.localScale.z);
+        }
+            return input;
     }
 
     private Vector3 HandleInput()//przerabia input tak zeby dostac kierunek ruchu dla gracza
