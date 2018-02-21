@@ -5,7 +5,7 @@ PhysicMaterial:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Player
+  m_Name: PlayerLower
   dynamicFriction: 3.3
   staticFriction: 6.84
   bounciness: 0
