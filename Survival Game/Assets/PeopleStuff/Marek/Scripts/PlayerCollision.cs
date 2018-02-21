@@ -4,7 +4,8 @@ using UnityEngine;
 using System.Linq;
 
 public class PlayerCollision : MonoBehaviour {
-    public float playerSize = .2f;
+#if UNITY_EDITOR
+    public float playerSize = .2f;          //zmieniac to w #else ponizej
     [ShowOnly]
     public float upToNormalAngle;
     [ShowOnly]
@@ -15,11 +16,24 @@ public class PlayerCollision : MonoBehaviour {
     public Vector3 rotateAxis;
 
     public float rayOriginOffsetY = 0.4f;
-
-
-
     private Vector3 dst;
     private PlayerMotor playerMotor;
+#else
+        public float playerSize = .2f;
+
+    public float upToNormalAngle;
+
+    public float dstToNormalAngle;
+
+    public bool inAir;
+
+    public Vector3 rotateAxis;
+
+    public float rayOriginOffsetY = 0.4f;
+    private Vector3 dst;
+    private PlayerMotor playerMotor;
+
+#endif
 
 
     // Use this for initialization

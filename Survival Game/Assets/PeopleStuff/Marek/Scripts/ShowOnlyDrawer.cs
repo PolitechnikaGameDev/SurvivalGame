@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR 
+using UnityEditor;
+
 using UnityEngine;
 
 [CustomPropertyDrawer(typeof(ShowOnlyAttribute))]
@@ -33,3 +35,4 @@ public class ShowOnlyDrawer : PropertyDrawer
         EditorGUI.LabelField(position, label.text, valueStr);
     }
 }
+#endif
