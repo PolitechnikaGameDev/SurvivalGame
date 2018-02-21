@@ -26,12 +26,13 @@ public class PlayerCollision : MonoBehaviour {
         playerMotor = GetComponent<PlayerMotor>();
         dst = playerMotor.destination;
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update() {
         dst = playerMotor.rawInput;
-        Vector3 origin = new Vector3(transform.position.x, transform.position.y+.2f, transform.position.z);
-        //Debug.DrawRay(origin, -Vector3.up, Color.blue);
+        Vector3 origin = new Vector3(transform.position.x, transform.position.y+.4f, transform.position.z);
+        origin = origin + dst*0.3f;
+        Debug.DrawRay(origin, -Vector3.up, Color.blue);
 
         RaycastHit hit;
         if (Physics.Raycast(origin, -Vector3.up, out hit))
@@ -45,9 +46,11 @@ public class PlayerCollision : MonoBehaviour {
             else
                 rotateAxis = Vector3.Cross(hit.normal, Vector3.up);
 
+
         }
 
     }
+
 
 
 

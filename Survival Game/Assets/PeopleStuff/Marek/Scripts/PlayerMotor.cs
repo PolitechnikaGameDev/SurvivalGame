@@ -16,6 +16,7 @@ public class PlayerMotor : MonoBehaviour {
         public Vector3 rotateAxis;
         public PlayerCollision pc;
         public float slopeAngle;
+        public bool movementBlocked;
 
         public CollisionData(PlayerCollision _pc)
         {
@@ -59,8 +60,10 @@ public class PlayerMotor : MonoBehaviour {
 
     [HideInInspector]
     public Vector3 rawInput;
+
     private Transform playerGraphic;
     private CollisionData collisionData;
+    private Rigidbody rigidBody;
     private Vector3 previousDst;
     private void Start()
     {
@@ -69,29 +72,36 @@ public class PlayerMotor : MonoBehaviour {
 
         collisionData = new CollisionData(GetComponent<PlayerCollision>());
 
+        rigidBody = GetComponent<Rigidbody>();
+
         playerGraphic = transform.GetChild(0);
 
         currMaxSpeed = maxSpeedWalk;
     }
     void Update () {
 
-		if (EventSystem.current.IsPointerOverGameObject ())
-			return;
+		//if (EventSystem.current.IsPointerOverGameObject ())
+			//return;
 
         Vector3 input = HandleInput();
         collisionData.Update();
-        destination = GetCurrSpeed(input);
+
+            destination = GetCurrSpeed(input);
 
 
-        transform.Translate(destination * Time.deltaTime);// ruch
+        //transform.Translate(destination * Time.deltaTime);// ruch
+
+
         if (input.magnitude != 0)
         {
             Quaternion rotation = Quaternion.LookRotation(input);
             playerGraphic.rotation =Quaternion.Slerp(playerGraphic.rotation, rotation,rotSpeed);//rotacja samego modelu
-        }
+        }  
 
-            
-
+    }
+    private void FixedUpdate()
+    {
+        rigidBody.MovePosition(transform.position + destination * Time.deltaTime);
     }
 
 
@@ -100,7 +110,6 @@ public class PlayerMotor : MonoBehaviour {
 
 
         Vector3 dst = input * currMaxSpeed;
-
         dst = RotateDestination(dst);
 
         dst += AddSlopesAffection(dst,collisionData.slopeAngle);
