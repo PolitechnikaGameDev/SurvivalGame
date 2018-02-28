@@ -36,6 +36,9 @@ public class PlayerMotor : MonoBehaviour {
 
     };
 
+#if UNITY_EDITOR
+
+
     [ShowOnly]
     public float currMaxSpeed;          //obecna predkosc maksymalna
 
@@ -60,9 +63,6 @@ public class PlayerMotor : MonoBehaviour {
     [ShowOnly]
     public float velocity;
 
-
-
-
     [HideInInspector]
     public Vector3 rawInput;
 
@@ -70,12 +70,47 @@ public class PlayerMotor : MonoBehaviour {
     private CollisionData collisionData;
     private Rigidbody rigidBody;
     private Vector3 previousDst;
+#else
+
+    public float currMaxSpeed;          //obecna predkosc maksymalna
+
+
+    public float maxSpeedSprint = 6;        //predkosc maksymalna przy sprincie 
+
+    private float maxSpeedWalk = 3;         //predkosc maksymalna przy chodzeniu
+
+    private float acceleration = 20;      //przyspieszenie
+
+    private float jumpForce = 300;      //sila skoku
+
+    private float maxSlope = 60;        //maksymalne nachylenie 
+
+
+    private float slopeAffector =  0.01f;
+
+    private float rotSpeed = .1f;        //predkosc obracania
+
+
+    public Vector3 destination;
+
+    public float velocity;
+
+
+    public Vector3 rawInput;
+
+    private Transform playerGraphic;
+    private CollisionData collisionData;
+    private Rigidbody rigidBody;
+    private Vector3 previousDst;
+#endif
+
     private void Start()
     {
         if (GetComponent<PlayerCollision>() == null)
             gameObject.AddComponent<PlayerCollision>();
+        
 
-        collisionData = new CollisionData(GetComponent<PlayerCollision>());
+            collisionData = new CollisionData(GetComponent<PlayerCollision>());
 
         rigidBody = GetComponent<Rigidbody>();
 
@@ -91,22 +126,23 @@ public class PlayerMotor : MonoBehaviour {
         Vector3 input = HandleInput();
         collisionData.Update();
 
-            destination = GetCurrSpeed(input);
+
 
 
         //transform.Translate(destination * Time.deltaTime);// ruch
 
-
-        if (input.magnitude != 0)
+        if (rawInput.magnitude != 0)
         {
-            Quaternion rotation = Quaternion.LookRotation(input);
-            playerGraphic.rotation =Quaternion.Slerp(playerGraphic.rotation, rotation,rotSpeed);//rotacja samego modelu
-        }  
+            Quaternion rotation = Quaternion.LookRotation(rawInput);
+            playerGraphic.rotation = Quaternion.Slerp(playerGraphic.rotation, rotation, rotSpeed);//rotacja samego modelu
+        }
 
     }
     private void FixedUpdate()
     {
+        destination = GetCurrSpeed(rawInput);
         rigidBody.MovePosition(transform.position + destination * Time.deltaTime);
+
     }
 
 

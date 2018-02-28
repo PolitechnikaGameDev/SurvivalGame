@@ -14,6 +14,8 @@ public class CameraFollow : MonoBehaviour {
     private float rotY = 0.0f;
     private float rotX = 0.0f;
 
+    private Rigidbody rigidBody;
+
     void Start ()
     {
         Vector3 rot = transform.localRotation.eulerAngles;
@@ -21,6 +23,14 @@ public class CameraFollow : MonoBehaviour {
         rotX = rot.x;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        if (!(rigidBody = GetComponent<Rigidbody>()))
+        {
+            rigidBody = gameObject.AddComponent<Rigidbody>();
+            rigidBody.useGravity = false;
+        }
+
+
+        
 	}
 	
 	
@@ -29,27 +39,32 @@ public class CameraFollow : MonoBehaviour {
         mouseX = Input.GetAxis("Mouse X");
         mouseY = Input.GetAxis("Mouse Y");
 
-        rotY += mouseX * inputSensitivity * Time.deltaTime;
-        rotX += mouseY * inputSensitivity * Time.deltaTime;
+	}
+
+    void FixedUpdate()
+    {
+        CameraUpdater();
+
+
+        rotY += mouseX * inputSensitivity * Time.fixedDeltaTime;
+        rotX += mouseY * inputSensitivity * Time.fixedDeltaTime;
 
         rotX = Mathf.Clamp(rotX, clampAngleL, clampAngleH); //ograniczenie rotacji w poziomie
 
         Quaternion localRotation = Quaternion.Euler(rotX, rotY, 0.0f);
-        transform.rotation = localRotation; //ustawienie rotacji kamery
-	}
+        rigidBody.MoveRotation(localRotation);
 
-    void LateUpdate()
-    {
-        CameraUpdater();
     }
+
 
     void CameraUpdater()
     {
         Transform target = CameraFollowObj.transform;  //ustawienie obiektu ktory bedzie kamera sledzila
 
         //podazanie kamery za obiektem 
-        float step = CameraMoveSpeed * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, target.position, step); //podazaj za sledzonym obiektem
+        float step = CameraMoveSpeed * Time.fixedDeltaTime;
+
+        rigidBody.MovePosition(Vector3.MoveTowards(transform.position, target.position, step));
 
     }
 }
