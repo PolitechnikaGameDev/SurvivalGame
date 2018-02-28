@@ -4,61 +4,84 @@ using UnityEngine;
 
 public class BuildingManager : MonoBehaviour {
 
-    public GameObject[] buildingParts;
-    public GameObject currentBuildingPart;
-    public bool buildingON;
-    public static bool isBuilding;
-    public float spawnOffset = 10f;
+    [SerializeField]
+    GameObject[] buildingParts;
+    GameObject currentPart;
     GameObject instantiatedObject;
 
+    bool buildingON;
+    bool isBuilding;
+    bool currentPartChanged;
 
+    Vector3 spawnPosition;
 
-    void Start ()
+	void Start ()
     {
-        currentBuildingPart = buildingParts[0];
+        currentPart = buildingParts[0];
 	}
 	
 
 	void Update ()
     {
-        if (isBuildingON())
+        if (isBuildingOn())
         {
-            if (!isBuilding)
+            chooseBuildingPart();
+
+            if (!isBuilding && !currentPartChanged)
             {
                 isBuilding = true;
-                instantiatedObject = Instantiate(chooseBuildingPart(), setSpawnPosition(), Quaternion.identity);
+                instantiatedObject = Instantiate(currentPart, setSpawnPosition(), Quaternion.identity);
+            }
+            if(currentPartChanged)
+            {
+                Destroy(instantiatedObject);
+                isBuilding = true;
+                instantiatedObject = Instantiate(currentPart, setSpawnPosition(), Quaternion.identity);
             }
         }
         else
         {
             Destroy(instantiatedObject);
             isBuilding = false;
+            currentPart = buildingParts[0];
         }
-    }
+	}
 
-    bool isBuildingON()
+    bool isBuildingOn()
     {
         if (Input.GetKeyDown("0"))
-        {
             buildingON = !buildingON;
-        }
+
         return buildingON;
     }
 
-    //wybieranie jaki blok chcemy wlasnie postawic
-    GameObject chooseBuildingPart()
+    void chooseBuildingPart()
     {
-        currentBuildingPart = buildingParts[0];
-        return currentBuildingPart;
+        GameObject choosedPart = currentPart;
+
+        if (Input.GetKeyDown("1"))
+            choosedPart = buildingParts[0];
+        else if (Input.GetKeyDown("2"))
+            choosedPart = buildingParts[1];
+        else if (Input.GetKeyDown("3"))
+            choosedPart = buildingParts[2];
+        else if (Input.GetKeyDown("4"))
+            choosedPart = buildingParts[3];
+        else if (Input.GetKeyDown("5"))
+            choosedPart = buildingParts[4];
+
+        if(choosedPart!=currentPart)
+            currentPartChanged=true;
+
+        if (currentPartChanged)
+            currentPart = choosedPart;
+
     }
 
-    //ustawienie spawnu bloczku na poczatek
     Vector3 setSpawnPosition()
     {
-        Vector3 spawnPosition = transform.position;
-        spawnPosition.y -= spawnOffset;
+        spawnPosition = transform.position;
+        spawnPosition.y -= 20f;
         return spawnPosition;
     }
 }
-
-   

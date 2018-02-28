@@ -3714,31 +3714,17 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1686234291}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1a0c55b2824273459335a8abbbd7a33, type: 3}
+  m_Script: {fileID: 11500000, guid: d2bac5961cc459b46a0dd012308572e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   buildingParts:
-  - {fileID: 0}
-  currentBuildingPart: {fileID: 0}
-  buildingON: 0
-  spawnOffset: 10
---- !u!114 &1686234297
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1686234291}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad75262673363a14abb66936f644972b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  listaObiektow:
-  - {fileID: 1793969073831516, guid: d92f59308def4b44da1b3e83ea3f737e, type: 2}
-  buduje: 0
-  obecnyObiekt: {fileID: 0}
+  - {fileID: 1799674932134284, guid: 4af9025994b0c5c4a96fcf237e3955fd, type: 2}
+  - {fileID: 1906468187494558, guid: b877ea8dbb0d8764cb9ecc774be9671e, type: 2}
+  - {fileID: 1620825919756888, guid: 21660b6fbf105204dbafdde51a8f6e06, type: 2}
+  - {fileID: 1821645864041066, guid: 1b10af81758842947953c5dfb0a68ff2, type: 2}
+  - {fileID: 1437748924983810, guid: 9de1ba00e92eba949b02f3c7b5346259, type: 2}
 --- !u!1 &1740769587
 GameObject:
   m_ObjectHideFlags: 0
