@@ -37,9 +37,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4349920374146706}
+  - component: {fileID: 65162770975467286}
   m_Layer: 0
   m_Name: Building_FoundamentW
-  m_TagString: Untagged
+  m_TagString: Foundation
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -127,3 +128,15 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: e4345e92b781bb540b57baf58c004f2a, type: 3}
+--- !u!65 &65162770975467286
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1406404253184832}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.51, y: 2.51, z: 2.51}
+  m_Center: {x: 0, y: -1.25, z: 0}

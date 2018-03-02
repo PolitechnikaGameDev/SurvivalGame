@@ -13,10 +13,13 @@ public class BuildingFoundament : MonoBehaviour {
     Vector3 direction;
     float distance = 3.5f;
     Vector3 position;
-
-    bool snapped;
-
     Vector3 rotation;
+
+    public bool snapped;
+    public Vector3 snappedPosition;
+    public Vector3 snappedRotation;
+
+    
 
 	void Start ()
     {
@@ -33,6 +36,11 @@ public class BuildingFoundament : MonoBehaviour {
         {
             transform.position = position;
             transform.rotation = Quaternion.LookRotation(rotation);
+        }
+        else
+        {
+            transform.position = snappedPosition;
+            //transform.rotation = Quaternion.LookRotation(snappedRotation);
         }
 
         placeIt();
@@ -67,4 +75,22 @@ public class BuildingFoundament : MonoBehaviour {
             Instantiate(finalObject, transform.position, transform.rotation);
         }
     }
+
+    /*
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag != "Ground")
+        {
+            if (GetComponentInChildren<Collider>().gameObject.name == "SnapN")
+                Debug.Log("N hit" + other.name);
+
+            if (GetComponentInChildren<Collider>().gameObject.name == "SnapE")
+                Debug.Log("E hit" + other.name);
+
+            Debug.Log("Siemano");
+         }
+         
+    }
+
+    */
 }
