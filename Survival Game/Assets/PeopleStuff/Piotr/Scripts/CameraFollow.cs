@@ -28,9 +28,6 @@ public class CameraFollow : MonoBehaviour {
             rigidBody = gameObject.AddComponent<Rigidbody>();
             rigidBody.useGravity = false;
         }
-
-
-        
 	}
 	
 	
