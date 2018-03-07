@@ -24,8 +24,17 @@ public class InventoryUI : MonoBehaviour {
 		if (Input.GetButtonDown ("Inventory")) 
 		{
 			inventoryUI.SetActive (!inventoryUI.activeSelf);
-			Cursor.visible = !Cursor.visible;
-			Cursor.lockState = CursorLockMode.None;
+			if (inventoryUI.activeInHierarchy) 
+			{
+				Cursor.visible = true;
+				Cursor.lockState = CursorLockMode.None;
+			}
+			if (!inventoryUI.activeInHierarchy) 
+			{
+				Cursor.visible = false;
+				Cursor.lockState = CursorLockMode.Locked;
+			}
+
 		}
 
 	}
@@ -34,9 +43,12 @@ public class InventoryUI : MonoBehaviour {
 	{
 		for (int i = 0; i < slots.Length; i++) 
 		{
-			if (i < inventory.items.Count) {
+			if (i < inventory.items.Count) 
+			{
 				slots [i].AddItem (inventory.items [i]);
-			} else {
+			} 
+			else 
+			{
 				slots [i].ClearSlot ();
 			}
 		}
