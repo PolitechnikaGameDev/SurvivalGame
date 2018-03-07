@@ -64,12 +64,22 @@ public class PlayerCollision : MonoBehaviour {
                 rotateAxis = Vector3.Cross(hit.normal, Vector3.up);
             
 
-            if (transform.position.y - hit.point.y >.1f)
-                inAir = true;
-            else
-                inAir = false;
+
         }
 
+    }
+    private void OnCollisionEnter(Collision other)
+    {
+        foreach(ContactPoint point in other.contacts)
+        {
+            if (point.thisCollider.GetType() == typeof(SphereCollider) && point.point.y < transform.position.y)
+                inAir = false;
+            
+        }
+    }
+    private void OnCollisionExit(Collision other)
+    {
+        inAir = true;
     }
 
 

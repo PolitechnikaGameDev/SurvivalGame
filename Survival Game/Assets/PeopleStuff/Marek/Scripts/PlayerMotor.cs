@@ -68,8 +68,14 @@ public class PlayerMotor : MonoBehaviour {
 
     private Transform playerGraphic;
     private CollisionData collisionData;
+    private CameraFollow cameraFollow;
     private Rigidbody rigidBody;
     private Vector3 previousDst;
+    private Transform mainCameraT;
+    private InventoryUI inventoryUI;
+
+    [HideInInspector]
+    public bool isAiming;
 #else
 
     public float currMaxSpeed;          //obecna predkosc maksymalna
@@ -106,6 +112,7 @@ public class PlayerMotor : MonoBehaviour {
 
     private void Start()
     {
+        mainCameraT = Camera.main.transform;
         if (GetComponent<PlayerCollision>() == null)
             gameObject.AddComponent<PlayerCollision>();
         
@@ -114,9 +121,16 @@ public class PlayerMotor : MonoBehaviour {
 
         rigidBody = GetComponent<Rigidbody>();
 
+        cameraFollow = GameObject.Find("CameraBase").GetComponent<CameraFollow>();
+        isAiming = false;
+        cameraFollow.SetOffset(isAiming);
+        inventoryUI = GameObject.Find("Canvas").GetComponent<InventoryUI>();
+        inventoryUI.UpdateCoursor(isAiming);
+
         playerGraphic = transform.GetChild(0);
 
         currMaxSpeed = maxSpeedWalk;
+
     }
     void Update () {
 
@@ -126,14 +140,16 @@ public class PlayerMotor : MonoBehaviour {
         Vector3 input = HandleInput();
         collisionData.Update();
 
-
-
-
-        //transform.Translate(destination * Time.deltaTime);// ruch
-
         if (rawInput.magnitude != 0)
         {
-            Quaternion rotation = Quaternion.LookRotation(rawInput);
+            Quaternion rotation;
+
+            if (isAiming)
+                rotation = Quaternion.LookRotation(new Vector3(mainCameraT.forward.x, 0, mainCameraT.forward.z));
+            else
+                rotation = Quaternion.LookRotation(rawInput);
+
+
             playerGraphic.rotation = Quaternion.Slerp(playerGraphic.rotation, rotation, rotSpeed);//rotacja samego modelu
         }
 
@@ -219,14 +235,22 @@ public class PlayerMotor : MonoBehaviour {
         {
             transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 2f, transform.localScale.z);
         }
+
+        if (Input.GetButtonDown("Fire2"))
+        {
+            isAiming = !isAiming;
+            cameraFollow.SetOffset(isAiming);
+            inventoryUI.UpdateCoursor(isAiming);
+        }
             return input;
     }
+    
 
     private Vector3 HandleInput()//przerabia input tak zeby dostac kierunek ruchu dla gracza
     {
         Vector3 input = GetInput();
-        Vector3 forward = Camera.main.transform.forward;
-        Vector3 right = Camera.main.transform.right;//kierunek na podstawie lokalnych kierunkow kamery
+        Vector3 forward = mainCameraT.forward;
+        Vector3 right = mainCameraT.right;//kierunek na podstawie lokalnych kierunkow kamery
         forward.y = 0f;
         right.y = 0f;
         forward.Normalize();

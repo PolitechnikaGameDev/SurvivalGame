@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour {
 
-    public float CameraMoveSpeed = 120.0f; //jak szybko porusza sie kamera
-    public GameObject CameraFollowObj; //co sledzi nasza kamera
+    public float cameraMoveSpeed = 120.0f; //jak szybko porusza sie kamera
+    public GameObject followObj; //co sledzi nasza kamera
     public float clampAngleH = 66.0f; //o jaki kat moze sie obrocic kamera w poziomie(glowa)
     public float clampAngleL = -40.0f; //o jaki kat moze sie obrocic kamera w poziomie(nogi)
     public float inputSensitivity = 150.0f; //jak czula jest kamera
@@ -16,8 +16,16 @@ public class CameraFollow : MonoBehaviour {
 
     private Rigidbody rigidBody;
 
+
+    private bool isAiming;
+    [SerializeField]
+    private Vector3 aimingOffset;
+    [SerializeField]
+    private Vector3 defaultOffset;
+
     void Start ()
     {
+
         Vector3 rot = transform.localRotation.eulerAngles;
         rotY = rot.y;
         rotX = rot.x;
@@ -29,7 +37,6 @@ public class CameraFollow : MonoBehaviour {
             rigidBody.useGravity = false;
         }
 
-
         
 	}
 	
@@ -39,7 +46,8 @@ public class CameraFollow : MonoBehaviour {
         mouseX = Input.GetAxis("Mouse X");
         mouseY = Input.GetAxis("Mouse Y");
 
-	}
+
+    }
 
     void FixedUpdate()
     {
@@ -59,12 +67,22 @@ public class CameraFollow : MonoBehaviour {
 
     void CameraUpdater()
     {
-        Transform target = CameraFollowObj.transform;  //ustawienie obiektu ktory bedzie kamera sledzila
+        Transform target = followObj.transform;  //ustawienie obiektu ktory bedzie kamera sledzila
 
         //podazanie kamery za obiektem 
-        float step = CameraMoveSpeed * Time.fixedDeltaTime;
+        float step = cameraMoveSpeed * Time.fixedDeltaTime;
 
         rigidBody.MovePosition(Vector3.MoveTowards(transform.position, target.position, step));
+        
 
+    }
+     public void SetOffset(bool isAiming)
+    {
+        if (isAiming)
+        {
+            followObj.transform.localPosition = aimingOffset;
+        }
+        else
+            followObj.transform.localPosition = defaultOffset;
     }
 }

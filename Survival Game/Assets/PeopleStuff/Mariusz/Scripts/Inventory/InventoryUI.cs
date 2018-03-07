@@ -4,15 +4,19 @@ public class InventoryUI : MonoBehaviour {
 
 	public Transform itemsParent;
 	public GameObject inventoryUI;
+    public GameObject crosshair;
 
 	Inventory inventory;
 	InventorySlot[] slots;
+
 	void Start () 
 	{
 		inventory = Inventory.instance;
 		inventory.onItemChangedCallback += UpdateUI;
 		slots = itemsParent.GetComponentsInChildren<InventorySlot> ();
-	}
+
+        crosshair = transform.Find("Crosshair").gameObject;
+    }
 	
 	// Update is called once per frame
 	void Update () 
@@ -23,6 +27,7 @@ public class InventoryUI : MonoBehaviour {
 			Cursor.visible = !Cursor.visible;
 			Cursor.lockState = CursorLockMode.None;
 		}
+
 	}
 
 	void UpdateUI()
@@ -37,4 +42,8 @@ public class InventoryUI : MonoBehaviour {
 		}
 		Debug.Log ("Updating UI");
 	}
+    public void UpdateCoursor(bool isAiming)
+    {
+        crosshair.SetActive(isAiming);
+    }
 }
