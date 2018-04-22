@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.EventSystems;
+﻿using UnityEngine;
 
 
 
@@ -49,7 +45,9 @@ public class PlayerMotor : MonoBehaviour {
     [SerializeField]
     private float acceleration = 20;      //przyspieszenie
     [SerializeField]
-    private float jumpForce = 300;      //sila skoku
+    private float jumpHeight = 0.5f;      //sila skoku
+    [SerializeField]
+    private float gravity = 6f;
     [SerializeField]
     private float maxSlope = 60;        //maksymalne nachylenie 
     [SerializeField]
@@ -69,13 +67,17 @@ public class PlayerMotor : MonoBehaviour {
     private Transform playerGraphic;
     private CollisionData collisionData;
     private CameraFollow cameraFollow;
-    private Rigidbody rigidBody;
+    private CharacterController characterController;
     private Vector3 previousDst;
     private Transform mainCameraT;
     private InventoryUI inventoryUI;
 
+
     [HideInInspector]
     public bool isAiming;
+    private bool inAir;
+    private bool isJumping;
+    private float currentLerpTime;
 #else
 
     public float currMaxSpeed;          //obecna predkosc maksymalna
@@ -112,6 +114,10 @@ public class PlayerMotor : MonoBehaviour {
 
     private void Start()
     {
+        currentLerpTime = 0;
+        inAir = false;
+        isJumping = false;
+
         mainCameraT = Camera.main.transform;
         if (GetComponent<PlayerCollision>() == null)
             gameObject.AddComponent<PlayerCollision>();
@@ -119,10 +125,11 @@ public class PlayerMotor : MonoBehaviour {
 
             collisionData = new CollisionData(GetComponent<PlayerCollision>());
 
-        rigidBody = GetComponent<Rigidbody>();
+        characterController = GetComponent<CharacterController>();
+
 
         cameraFollow = GameObject.Find("CameraBase").GetComponent<CameraFollow>();
-        isAiming = false;
+        isAiming = true;
         cameraFollow.SetOffset(isAiming);
         inventoryUI = GameObject.Find("Canvas").GetComponent<InventoryUI>();
         inventoryUI.UpdateCoursor(isAiming);
@@ -132,34 +139,78 @@ public class PlayerMotor : MonoBehaviour {
         currMaxSpeed = maxSpeedWalk;
 
     }
-    void Update () {
 
-		//if (EventSystem.current.IsPointerOverGameObject ())
-			//return;
-
-        Vector3 input = HandleInput();
-        collisionData.Update();
-
-        if (rawInput.magnitude != 0)
-        {
-            Quaternion rotation;
-
-            if (isAiming)
-                rotation = Quaternion.LookRotation(new Vector3(mainCameraT.forward.x, 0, mainCameraT.forward.z));
-            else
-                rotation = Quaternion.LookRotation(rawInput);
-
-
-            playerGraphic.rotation = Quaternion.Slerp(playerGraphic.rotation, rotation, rotSpeed);//rotacja samego modelu
-        }
-
-    }
     private void FixedUpdate()
     {
-        destination = GetCurrSpeed(rawInput);
-        rigidBody.MovePosition(transform.position + destination * Time.deltaTime);
+        if (characterController.isGrounded)
+        {
+            inAir = false;
+            Debug.Log("dupa");
+        }
+
+        else
+            inAir = true;
 
     }
+
+    void Update () {
+        HandleInput();
+        collisionData.Update();
+
+    
+            if (rawInput.magnitude != 0)
+            {
+                Quaternion rotation;
+
+                if (isAiming)
+                    rotation = Quaternion.LookRotation(new Vector3(mainCameraT.forward.x, 0, mainCameraT.forward.z));
+                else
+                    rotation = Quaternion.LookRotation(rawInput);
+
+
+                playerGraphic.rotation = Quaternion.Slerp(playerGraphic.rotation, rotation, rotSpeed);//rotacja samego modelu
+
+                destination = GetCurrSpeed(rawInput);
+
+            }
+            else
+                destination = Vector3.zero;
+
+            velocity = destination.magnitude;
+
+        if (characterController.isGrounded)
+        {
+            characterController.Move(destination * Time.deltaTime);
+        }
+
+        characterController.Move(new Vector3(destination.x, Jump() * gravity, destination.z) * Time.deltaTime);
+
+
+
+
+    }
+
+    private float Jump()
+    {
+        
+        //increment timer once per frame
+        currentLerpTime += Time.deltaTime;
+        if (currentLerpTime > jumpHeight)
+        {
+            currentLerpTime = jumpHeight;
+        }
+        //lerp!
+
+        float t = currentLerpTime / jumpHeight;
+
+        t = Mathf.Sin(t * Mathf.PI * 1.5f);
+
+        Debug.Log(t.ToString("0.0000"));
+        return t;
+    }
+
+
+
 
 
     private Vector3 GetCurrSpeed(Vector3 input)
@@ -168,12 +219,9 @@ public class PlayerMotor : MonoBehaviour {
 
         Vector3 dst = input * currMaxSpeed;
         dst = RotateDestination(dst);
-
         dst += AddSlopesAffection(dst,collisionData.slopeAngle);
 
         dst = SmoothDestination(dst);
-
-        velocity = destination.magnitude;
 
         previousDst = destination;
 
@@ -184,15 +232,15 @@ public class PlayerMotor : MonoBehaviour {
     private Vector3 RotateDestination(Vector3 dst)
     {
         dst = Quaternion.AngleAxis(collisionData.slopeAngle, collisionData.rotateAxis) * dst;
-        Debug.DrawRay(playerGraphic.position, collisionData.rotateAxis);
+        Debug.DrawRay(playerGraphic.position, collisionData.rotateAxis,Color.magenta);
         return dst;
     }
 
     private Vector3 SmoothDestination(Vector3 dst)
     {
-
-        Vector3 velocityVector = Vector3.zero;
-        dst = Vector3.SmoothDamp(previousDst, dst, ref velocityVector, 1 / acceleration);      //plynne przyspieszanie/zwalnianie
+        Vector3 temp = Vector3.zero;
+        dst = Vector3.SmoothDamp(previousDst, dst,ref temp, 1 / acceleration);      //plynne przyspieszanie/zwalnianie
+        //Debug.Log(dst);
         return dst;
     }
 
@@ -208,8 +256,6 @@ public class PlayerMotor : MonoBehaviour {
         return dst * slopeAngle *slopeAffector;
     }
 
-
-
     private Vector3 GetInput()// pobieranie inputu
     {
         float horizontal = Input.GetAxis("Horizontal");
@@ -223,9 +269,9 @@ public class PlayerMotor : MonoBehaviour {
         else
             currMaxSpeed = maxSpeedWalk;
 
-        if (Input.GetKeyDown(KeyCode.Space) && !collisionData.inAir)
+        if (Input.GetKeyDown(KeyCode.Space) && !inAir)
         {
-            rigidBody.AddForce(Vector3.up * jumpForce);
+            currentLerpTime = 0;
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
@@ -246,7 +292,7 @@ public class PlayerMotor : MonoBehaviour {
     }
     
 
-    private Vector3 HandleInput()//przerabia input tak zeby dostac kierunek ruchu dla gracza
+    private void HandleInput()//przerabia input tak zeby dostac kierunek ruchu dla gracza
     {
         Vector3 input = GetInput();
         Vector3 forward = mainCameraT.forward;
@@ -259,7 +305,6 @@ public class PlayerMotor : MonoBehaviour {
 
         Debug.DrawRay(transform.position, desiredMoveDirection, Color.green);
         rawInput = desiredMoveDirection;
-        return desiredMoveDirection;
     }
 
 

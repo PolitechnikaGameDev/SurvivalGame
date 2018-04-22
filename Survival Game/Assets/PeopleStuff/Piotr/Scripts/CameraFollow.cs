@@ -14,30 +14,23 @@ public class CameraFollow : MonoBehaviour {
     private float rotY = 0.0f;
     private float rotX = 0.0f;
 
-    private Rigidbody rigidBody;
 
 
     private bool isAiming;
-    [SerializeField]
     private Vector3 aimingOffset;
-    [SerializeField]
     private Vector3 defaultOffset;
 
     void Start ()
     {
+        aimingOffset = new Vector3(.5f, 1.5f, 0f);
+        defaultOffset = new Vector3(0f, 1.5f, 0f);
+        SetOffset(true);
 
         Vector3 rot = transform.localRotation.eulerAngles;
         rotY = rot.y;
         rotX = rot.x;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        if (!(rigidBody = GetComponent<Rigidbody>()))
-        {
-            rigidBody = gameObject.AddComponent<Rigidbody>();
-            rigidBody.useGravity = false;
-        }
-
-        
 	}
 	
 	
@@ -47,21 +40,20 @@ public class CameraFollow : MonoBehaviour {
         mouseY = Input.GetAxis("Mouse Y");
 
 
-    }
-
-    void FixedUpdate()
-    {
-        CameraUpdater();
-
 
         rotY += mouseX * inputSensitivity * Time.fixedDeltaTime;
         rotX += mouseY * inputSensitivity * Time.fixedDeltaTime;
 
+
         rotX = Mathf.Clamp(rotX, clampAngleL, clampAngleH); //ograniczenie rotacji w poziomie
 
         Quaternion localRotation = Quaternion.Euler(rotX, rotY, 0.0f);
-        rigidBody.MoveRotation(localRotation);
+        transform.rotation = localRotation;
+    }
 
+    void LateUpdate()
+    {
+        CameraUpdater();
     }
 
 
@@ -70,9 +62,9 @@ public class CameraFollow : MonoBehaviour {
         Transform target = followObj.transform;  //ustawienie obiektu ktory bedzie kamera sledzila
 
         //podazanie kamery za obiektem 
-        float step = cameraMoveSpeed * Time.fixedDeltaTime;
+        float step = cameraMoveSpeed * Time.deltaTime;
 
-        rigidBody.MovePosition(Vector3.MoveTowards(transform.position, target.position, step));
+       transform.position = Vector3.MoveTowards(transform.position, target.position, step);
         
 
     }
